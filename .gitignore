@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env / secrets — never commit API keys
+.env
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
