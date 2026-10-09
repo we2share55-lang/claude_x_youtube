@@ -66,8 +66,8 @@ watch.py "https://www.youtube.com/watch?v=VIDEO_ID" "What happens at 05:30?"
 
 ## Models
 
-- `gemini-3.8-flash` — default; fast, good for most use cases
-- `gemini-3.8-pro` — deeper analysis, longer videos
+- `gemini-3.5-flash` — default; fast, good for most use cases
+- `gemini-3.1-pro-preview` — deeper analysis, longer videos
 - Note: `gemini-2.5-flash` / `gemini-2.5-pro` are no longer available to new users (return 404) — use the 3.x models above.
 
 ## Fallback: Transcript Mode

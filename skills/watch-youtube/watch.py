@@ -62,7 +62,7 @@ Note: The above is the raw transcript. Answer the prompt based on this content.
     return result
 
 
-def watch(url: str, prompt: str, model: str = "gemini-3.8-flash"):
+def watch(url: str, prompt: str, model: str = "gemini-3.5-flash"):
     """Analyze a YouTube video. Tries Gemini first, falls back to transcript on failure."""
     # Try Gemini first
     try:
@@ -119,5 +119,5 @@ if __name__ == "__main__":
 
     url = sys.argv[1]
     prompt = sys.argv[2]
-    model = sys.argv[3] if len(sys.argv) > 3 else "gemini-3.8-flash"
+    model = sys.argv[3] if len(sys.argv) > 3 else "gemini-3.5-flash"
     watch(url, prompt, model)
