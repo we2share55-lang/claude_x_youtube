@@ -4,6 +4,7 @@
 import sys
 import os
 import re
+import time
 
 # Force UTF-8 stdout/stderr so non-ASCII output (e.g. Korean, em-dashes) doesn't
 # crash on Windows consoles that default to a legacy codepage like cp949.
@@ -62,6 +63,31 @@ Note: The above is the raw transcript. Answer the prompt based on this content.
     return result
 
 
+# Temporary server-side errors (overload, rate limit, gateway/timeouts) are worth waiting out:
+# retrying the *video* analysis beats silently degrading to the transcript-only fallback.
+RETRIES = int(os.environ.get("WATCH_RETRIES", "5"))        # extra attempts after the first
+RETRY_WAIT = float(os.environ.get("WATCH_RETRY_WAIT", "20"))  # seconds; wait = RETRY_WAIT * attempt
+
+
+def is_transient(err: Exception) -> bool:
+    s = str(err).lower()
+    if any(k in s for k in ("high demand", "overloaded", "try again later", "deadline_exceeded", "timed out", "timeout")):
+        return True
+    return any(code in s for code in ("503", "502", "504", "500 internal", "429", "resource_exhausted"))
+
+
+def generate_with_retry(client, **kwargs):
+    for attempt in range(RETRIES + 1):
+        try:
+            return client.models.generate_content(**kwargs)
+        except Exception as e:  # noqa: BLE001
+            if attempt >= RETRIES or not is_transient(e):
+                raise
+            wait = RETRY_WAIT * (attempt + 1)
+            print(f"[watch-youtube] temporary Gemini error ({type(e).__name__}); retry {attempt + 1}/{RETRIES} in {wait:.0f}s", file=sys.stderr, flush=True)
+            time.sleep(wait)
+
+
 def watch(url: str, prompt: str, model: str = "gemini-3.5-flash"):
     """Analyze a YouTube video. Tries Gemini first, falls back to transcript on failure."""
     # Try Gemini first
@@ -74,7 +100,8 @@ def watch(url: str, prompt: str, model: str = "gemini-3.5-flash"):
             raise EnvironmentError("GEMINI_API_KEY (or GOOGLE_API_KEY) not set")
 
         client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(
+        response = generate_with_retry(
+            client,
             model=model,
             contents=types.Content(
                 parts=[
@@ -101,7 +128,7 @@ def watch(url: str, prompt: str, model: str = "gemini-3.5-flash"):
             # Unexpected error — re-raise so caller sees it
             raise
 
-        print(f"[watch-youtube] Gemini failed ({type(gemini_err).__name__}: {gemini_err}), falling back to transcript...", file=sys.stderr)
+        print(f"[watch-youtube] Gemini failed after retries ({type(gemini_err).__name__}: {gemini_err}). Falling back to the TRANSCRIPT ONLY - the video/audio was NOT analyzed.", file=sys.stderr)
 
     # Fallback: transcript
     try:

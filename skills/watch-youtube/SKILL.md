@@ -92,3 +92,8 @@ If Gemini fails (quota exceeded, video too long, API key missing), the script au
 - Video exceeds context window (>1M tokens / ~1hr)
 - `GOOGLE_API_KEY` not set
 - Any other Gemini API error containing: quota, token, context, too long, exceeds
+
+## Retries and fallback
+
+- Temporary Gemini errors (503 overload, 429 rate limit, 500/502/504, timeouts) are **retried** with growing waits (default 5 retries, 20 s x attempt; env WATCH_RETRIES, WATCH_RETRY_WAIT) so the real video + audio gets analyzed.
+- Only after the retries are used up (or for non-temporary errors such as quota/long video/unsupported) does the script fall back to the **transcript only** and prints a loud warning that the video was NOT analyzed. Treat transcript-only results as lower fidelity (auto captions, possibly translated).

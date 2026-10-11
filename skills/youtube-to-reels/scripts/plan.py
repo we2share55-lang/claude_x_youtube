@@ -9,6 +9,7 @@ import math
 import os
 import subprocess
 import sys
+import time
 
 sys.stdout.reconfigure(encoding="utf-8")
 
@@ -43,6 +44,30 @@ JSON만 출력:
     "scenes": [{{"kind": "hook|point|outro", "heading": "...", "bullets": ["..."], "narration": "..."}}]}}
 ]}}
 """
+
+
+RETRIES = int(os.environ.get("WATCH_RETRIES", "6"))
+RETRY_WAIT = float(os.environ.get("WATCH_RETRY_WAIT", "20"))
+
+
+def is_transient(err):
+    s = str(err).lower()
+    if any(k in s for k in ("high demand", "overloaded", "try again later", "deadline_exceeded", "timed out", "timeout")):
+        return True
+    return any(code in s for code in ("503", "502", "504", "500 internal", "429", "resource_exhausted"))
+
+
+def generate_with_retry(client, **kwargs):
+    """Wait out temporary Gemini errors instead of failing (the plan must come from the real video)."""
+    for attempt in range(RETRIES + 1):
+        try:
+            return client.models.generate_content(**kwargs)
+        except Exception as e:  # noqa: BLE001
+            if attempt >= RETRIES or not is_transient(e):
+                raise
+            wait = RETRY_WAIT * (attempt + 1)
+            print(f"temporary Gemini error ({type(e).__name__}); retry {attempt + 1}/{RETRIES} in {wait:.0f}s", flush=True)
+            time.sleep(wait)
 
 
 def video_info(url):
@@ -90,7 +115,8 @@ def main():
         prompt += f"\n주제 힌트: {a.focus} 중심으로 고를 것.\n"
     if a.episodes == 1 and minutes > 8:
         prompt += "\n영상이 길지만 이번에는 1편만 만든다: 전체에서 가장 중요하고 기초가 되는 한 주제를 골라라.\n"
-    resp = client.models.generate_content(
+    resp = generate_with_retry(
+        client,
         model=a.model,
         contents=types.Content(parts=[
             types.Part(file_data=types.FileData(file_uri=a.url)),
