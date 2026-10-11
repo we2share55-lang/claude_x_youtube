@@ -26,7 +26,8 @@ foreach ($name in $skills) {
     $src = Join-Path $RepoSkills $name
     $dst = Join-Path $DstSkills  $name
     Write-Host "설치: $name -> ~/.claude/skills/$name" -ForegroundColor Cyan
-    robocopy $src $dst /MIR /XD "__pycache__" /XF "*.pyc" /NFL /NDL /NJH /NJS /NP | Out-Null
+    # 제외한 폴더/파일은 /MIR 의 삭제 대상에서도 빠진다 (그 PC의 .venv, 개인 참조 음성이 지워지지 않게)
+    robocopy $src $dst /MIR /XD "__pycache__" ".venv" "node_modules" /XF "*.pyc" "ref_voice.*" "character_01.jpg" /NFL /NDL /NJH /NJS /NP | Out-Null
     if ($LASTEXITCODE -ge 8) { throw "robocopy 실패 ($name), 종료코드 $LASTEXITCODE" }
 }
 
@@ -35,3 +36,7 @@ Write-Host "  1) GEMINI_API_KEY 환경변수 설정"
 Write-Host '     [Environment]::SetEnvironmentVariable("GEMINI_API_KEY","키값","User")'
 Write-Host "  2) pip install -U google-genai youtube-transcript-api"
 Write-Host "  3) (youtube-digest 사용 시) yt-dlp, ffmpeg 설치"
+Write-Host "  4) (youtube-to-reels / qwen3-tts 사용 시)"
+Write-Host '     python -m venv "$HOME\.claude\skills\qwen3-tts\.venv"; & "$HOME\.claude\skills\qwen3-tts\.venv\Scripts\pip.exe" install qwen-tts soundfile'
+Write-Host "     본인 참조 음성을 ~/.claude/skills/youtube-to-reels/assets/ref_voice.wav + ref_voice.txt 로 직접 넣기 (저장소에는 없음)"
+Write-Host "     reels-remotion 폴더에서 npm i  /  npx skills add remotion-dev/skills -g -a claude-code -y"

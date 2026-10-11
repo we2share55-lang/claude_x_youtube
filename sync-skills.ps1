@@ -55,7 +55,8 @@ foreach ($name in $skills) {
     }
     Write-Host "  <- $name" -ForegroundColor DarkGray
     # /MIR: 완전 미러(삭제 포함), __pycache__ 와 .pyc 제외, 로그 최소화
-    robocopy $src $dst /MIR /XD "__pycache__" /XF "*.pyc" /NFL /NDL /NJH /NJS /NP | Out-Null
+    # .venv / node_modules 와 개인 자료(참조 음성, 원본 캐릭터 사진)는 저장소(공개)에 올리지 않는다
+    robocopy $src $dst /MIR /XD "__pycache__" ".venv" "node_modules" /XF "*.pyc" "ref_voice.*" "character_01.jpg" /NFL /NDL /NJH /NJS /NP | Out-Null
     # robocopy 종료코드 8 이상만 실패
     if ($LASTEXITCODE -ge 8) {
         throw "robocopy 실패 ($name), 종료코드 $LASTEXITCODE"
@@ -78,14 +79,20 @@ try {
         $Message = "Sync skills from ~/.claude/skills ($(Get-Date -Format 'yyyy-MM-dd HH:mm'))"
     }
 
-    git add -A
-    git commit -m $Message | Out-Null
+    # git 은 CRLF 경고 등을 stderr 로 내보내는데, PowerShell 5.1 에서 $ErrorActionPreference=Stop 이면
+    # 그것이 오류로 취급돼 중단된다 -> 이 구간만 Continue 로 두고 종료코드로 판단한다.
+    $ErrorActionPreference = "Continue"
+    git add -A 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "git add 실패" }
+    git commit -m $Message 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "git commit 실패" }
     Write-Host "커밋 완료: $Message" -ForegroundColor Green
 
     if ($NoPush) {
         Write-Host "(-NoPush 지정됨, push 생략)" -ForegroundColor DarkGray
     } else {
-        git push
+        git push 2>&1 | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw "git push 실패" }
         Write-Host "push 완료." -ForegroundColor Green
     }
 }

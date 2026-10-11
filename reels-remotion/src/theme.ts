@@ -1,0 +1,28 @@
+import { loadFont } from "@remotion/google-fonts/Jua";
+
+// Rounded, friendly Korean display font. To try another one, swap this import
+// (e.g. BlackHanSans, DoHyeon, Gaegu, GamjaFlower, SingleDay, HiMelody, Gugi).
+export const { fontFamily } = loadFont();
+
+export const INK = "#1b1b1f";
+export const BLUE = "#2f6bff";
+export const ORANGE = "#ff8a3d";
+export const YELLOW = "#ffd84d";
+export const SUB_BG = "#2b2d33"; // dark gray subtitle box
+export const MUTED = "#8a90a0";
+
+// stage background per illustration
+export const ART_BG: Record<string, string> = {
+  shop: "#fff1c9",
+  company: "#d8e8ff",
+  basket: "#ffe3d1",
+  checkout: "#ddf5e3",
+  shelf: "#eadcff",
+  bag: "#ffe8ee",
+  pizza: "#fff1c9",
+  dividend: "#d8e8ff",
+  buyback: "#ffe3d1",
+  bigger: "#ddf5e3",
+  return: "#eadcff",
+  piggy: "#ffe8ee",
+};
