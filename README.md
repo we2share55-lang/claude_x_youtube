@@ -1,35 +1,31 @@
-# claude_x_youtube
+# moneystudy
 
-Claude Code용 유튜브 기반 워크플로우(스킬)와 릴스 제작 프로젝트 모음.
+쉬운 경제 공부 릴스 프로젝트 (인스타그램 계정 "돈병상련").
+경제 내용을 정리하고(노션), 그 내용으로 60초 이내 세로 릴스를 만듭니다.
 
-## 스킬
+## 구성
 
-| 스킬 | 설명 |
+| 경로 | 내용 |
 |------|------|
-| [`skills/watch-youtube`](skills/watch-youtube) | Gemini 영상 이해 API로 유튜브 영상을 분석(요약·타임스탬프·Q&A). 자막 폴백 포함. 기본 모델 `gemini-3.5-flash`. |
-| [`skills/youtube-digest`](skills/youtube-digest) | 유튜브 링크 → 자막·핵심 장면·5줄 요약. |
-| [`skills/youtube-to-reels`](skills/youtube-to-reels) | 유튜브 링크 → 60초 이내 세로 릴스(mp4) + 썸네일 + 캡션. Gemini로 핵심 정리, 복제 음성 나레이션, Remotion 렌더. |
-| [`skills/qwen3-tts`](skills/qwen3-tts) | Qwen3-TTS 음성 복제(CPU 가능) CLI. youtube-to-reels의 음성 단계. |
-| [`skills/value-investing-coach`](skills/value-investing-coach) | 버핏식 가치투자 관점의 교육용 비서. |
-| `skills/notion-*` (4개) | Notion 연동 문서화·리서치·회의·스펙 스킬. |
+| [`reels-remotion`](reels-remotion) | Remotion 프로젝트: 한글 폰트 Jua, 코드로 그린 만화 일러스트, 동전 캐릭터, 단어 하이라이트 자막, 썸네일 |
+| [`reels-remotion/plans`](reels-remotion/plans) | 만든 영상의 대본(plan) 파일. 영상 파일명은 `YYYY-MM-DD-NNN` |
 
-## 릴스 프로젝트
+## 만드는 순서 (요약)
 
-[`reels-remotion`](reels-remotion): Remotion 프로젝트 (한글 폰트 Jua, 코드로 그린 만화 일러스트, 동전 캐릭터, 단어 하이라이트 자막).
-`plans/`에 만든 영상의 대본(plan) 파일이 있습니다. 영상 파일명은 `YYYY-MM-DD-NNN`.
+1. 유튜브 소스 분석·기획: `plan.py` (Gemini가 영상 분석, 일시적 오류는 재시도)
+2. 음성(복제) + 타임라인: `export_remotion.py`
+3. Remotion으로 영상·썸네일 렌더
+4. 캡션 작성 → 인스타그램 업로드
 
-## 요구사항
+유튜브 읽기, 음성, 릴스 제작 스킬은 별도 저장소 **`youtube-skills`** 에 있습니다 (어떤 주제 프로젝트에서도 공통으로 사용).
 
-- Python: `google-genai`, `youtube-transcript-api`, `pillow`, `numpy`, `imageio-ffmpeg`, `faster-whisper`
+## 준비물
+
+- `youtube-skills` 저장소를 받아 `.\install-skills.ps1` 실행 (스킬이 `~/.claude/skills`에 설치됨)
 - Node 20+, `reels-remotion`에서 `npm i`, Remotion 스킬: `npx skills add remotion-dev/skills -g -a claude-code -y`
-- 환경변수: `GEMINI_API_KEY` (키 값은 저장소에 커밋하지 말 것)
+- 환경변수 `GEMINI_API_KEY`
+- 본인 참조 음성(`ref_voice.wav/txt`)은 저장소에 없습니다. 각 PC에서 직접 넣습니다.
 
-## 저장소에 일부러 넣지 않은 것 (공개 저장소)
+## 공개 저장소 주의
 
-- **참조 음성**(`ref_voice.wav/txt`)과 **원본 캐릭터 사진**: 본인 자료는 각 PC에서 직접 넣습니다 (`skills/youtube-to-reels/assets/`).
-- 인스타그램 토큰/계정 ID, API 키 등 비밀값 (`.env`는 `.gitignore`).
-
-## 설치 / 동기화
-
-- 다른 PC: `git clone` → `.\install-skills.ps1` (남은 준비물 안내가 출력됩니다)
-- 스킬을 고친 뒤: `.\sync-skills.ps1` (`~/.claude/skills` → 저장소 복사 → 커밋 → push)
+참조 음성, 원본 얼굴 사진, 토큰/키는 올리지 않습니다 (`.gitignore` 참고).
