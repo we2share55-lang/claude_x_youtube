@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Post the next queued reel to Instagram (run daily by .github/workflows/publish-reel.yml).
 
 Queue = DRAFT releases on this repo whose tag starts with `reel-` (created by queue_reel.py).
@@ -47,7 +47,7 @@ def main():
     a = ap.parse_args()
 
     repo = os.environ.get("GITHUB_REPOSITORY") or sys.exit("GITHUB_REPOSITORY missing")
-    token, uid = os.environ.get("IG_ACCESS_TOKEN", ""), os.environ.get("IG_USER_ID", "")
+    token, uid = os.environ.get("IG_ACCESS_TOKEN", "").strip(), os.environ.get("IG_USER_ID", "").strip()
     if not token or not uid.isdigit():
         sys.exit("IG_ACCESS_TOKEN / numeric IG_USER_ID missing")
 
