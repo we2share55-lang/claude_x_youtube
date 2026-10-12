@@ -1,0 +1,24 @@
+{
+  "source_url": "https://youtu.be/oUDSWlsaRiU",
+  "source_channel": "강지영의 동그라미",
+  "source_title": "슈카가 떠먹여주는 진짜 쉬운 경제 용어 특강",
+  "episodes": [
+    {
+      "title": "중앙은행과 연준",
+      "caption": "미국 중앙은행 발표 한마디에 전 세계 증시가 출렁이는 이유! 중앙은행은 무엇을 하는 곳인지 쉽게 정리했어요.",
+      "hashtags": ["#돈병상련", "#경제공부", "#중앙은행", "#연준", "#기준금리", "#경제용어", "#돈공부"],
+      "scenes": [
+        {"kind": "hook", "heading": "말 한마디의 힘", "bullets": [], "art": "megaphone",
+         "narration": "미국 중앙은행 발표 한마디에 전 세계 주식 시장이 출렁이는 이유, 아시나요?"},
+        {"kind": "point", "heading": "은행의 은행", "bullets": ["개인과 거래하지 않아요", "은행을 상대로 관리"], "art": "cbank",
+         "narration": "중앙은행은 개인과 직접 거래하지 않아요. 은행들을 상대로 돈을 맡기고 관리하는 나라의 은행이에요."},
+        {"kind": "point", "heading": "미국 연준", "bullets": ["미국의 중앙은행", "연준 의장의 영향력"], "art": "fed",
+         "narration": "미국의 중앙은행은 연준이에요. 연준 의장은 세계 경제 대통령이라고 불릴 만큼 영향력이 커요."},
+        {"kind": "point", "heading": "시장이 움직여요", "bullets": ["금리와 통화 정책", "전 세계 주가 영향"], "art": "globe",
+         "narration": "연준 의장이 금리와 통화 정책을 정하기 때문에, 말 한마디에 전 세계 주가가 크게 움직이기도 해요."},
+        {"kind": "outro", "heading": "연준 발표 체크", "bullets": [], "art": "news",
+         "narration": "경제 뉴스를 볼 때 연준 발표를 한번 챙겨 보세요. 시장이 왜 움직이는지 보이기 시작해요."}
+      ]
+    }
+  ]
+}

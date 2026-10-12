@@ -1,0 +1,40 @@
+name: publish-reel
+
+# Posts the next queued reel (draft release `reel-*`) to Instagram once a day.
+# 11:00 UTC = 20:00 Korea time. GitHub may start scheduled runs a few minutes late.
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only report what would be posted (uncheck to post now)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-reel
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Post next queued reel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            python3 reels-remotion/scripts/publish_queued.py --dry-run
+          else
+            python3 reels-remotion/scripts/publish_queued.py
+          fi

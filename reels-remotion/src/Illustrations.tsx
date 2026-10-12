@@ -753,6 +753,403 @@ const Piggy: React.FC = () => {
   );
 };
 
+/* ---------- topic pack 2: 기회비용 / 중앙은행 / IPO ---------- */
+
+const Bowl: React.FC<{ x: number; y: number; s?: number; soup: string; label: string; ghost?: number }> = ({ x, y, s = 1, soup, label, ghost = 1 }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`} opacity={ghost}>
+    <ellipse cx="0" cy="118" rx="140" ry="16" fill="#000" opacity="0.13" />
+    <path d="M-140,0 L140,0 C140,96 76,120 0,120 C-76,120 -140,96 -140,0 Z" fill="#fff" {...S} />
+    <ellipse cx="0" cy="0" rx="140" ry="34" fill={soup} {...S} />
+    <path d="M-80,-6 C-50,-26 -30,12 0,-6 C30,-24 50,10 84,-8" fill="none" stroke="#fff3c4" strokeWidth="9" strokeLinecap="round" />
+    <path d="M-60,8 C-30,-8 -10,20 20,6 C40,-4 56,12 70,4" fill="none" stroke="#fff3c4" strokeWidth="7" strokeLinecap="round" />
+    <Face x={0} y={70} s={0.85} />
+    {label ? <Tag x={0} y={190} text={label} size={40} /> : null}
+  </g>
+);
+
+const Choice: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = useSpringAt(4);
+  const b = useSpringAt(12);
+  const q = useSpringAt(24, 8);
+  const bob = Math.sin(frame / 12) * 8;
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.7} />
+      <g transform={`translate(250 300) scale(${a}) translate(-250 -300)`}>
+        <Bowl x={250} y={300} soup="#5a3a22" label="짜장면" />
+      </g>
+      <g transform={`translate(750 300) scale(${b}) translate(-750 -300)`}>
+        <Bowl x={750} y={300} soup="#ff5a3d" label="짬뽕" />
+      </g>
+      <g transform={`translate(500 ${150 + bob}) scale(${q})`}>
+        <circle r="62" fill="#fff" {...S} />
+        <text x="0" y="28" textAnchor="middle" fontFamily={fontFamily} fontSize="86" fill="#ff8a3d">?</text>
+      </g>
+      <Sparkle x={130} y={140} delay={0} />
+      <Sparkle x={880} y={150} size={22} delay={9} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Noodle: React.FC = () => {
+  const a = useSpringAt(2);
+  const check = useSpringAt(20, 8);
+  const lost = useSpringAt(34, 10);
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.7} />
+      <g transform={`translate(250 300) scale(${a}) translate(-250 -300)`}>
+        <Bowl x={250} y={300} soup="#5a3a22" label="짜장면" />
+      </g>
+      <g transform={`translate(335 190) scale(${check})`}>
+        <circle r="48" fill="#5ccf6b" {...S} />
+        <path d="M-22,2 L-6,20 L26,-18" fill="none" stroke="#fff" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <Bowl x={750} y={300} soup="#ff5a3d" label="짬뽕" ghost={0.35 + 0.65 * (1 - lost)} />
+      <g transform={`translate(750 300) scale(${lost})`} opacity={Math.min(1, lost * 2)}>
+        <path d="M-60,-60 L60,60 M60,-60 L-60,60" stroke="#ff4d4d" strokeWidth="18" strokeLinecap="round" />
+      </g>
+      <g transform={`translate(500 610) scale(${lost})`}>
+        <Tag x={0} y={0} text="포기한 짬뽕 = 기회비용" color="#ff8a3d" size={38} />
+      </g>
+    </g>
+  );
+};
+
+const Phone: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const t1 = useSpringAt(14);
+  const t2 = useSpringAt(26);
+  return (
+    <g>
+      <Cloud x={500} y={80} s={0.7} />
+      <g transform={`translate(500 330) scale(${pop}) translate(-500 -330)`}>
+        <rect x="410" y="170" width="180" height="320" rx="34" fill="#7fb7ff" {...S} />
+        <rect x="428" y="204" width="144" height="236" rx="14" fill="#fff" {...S} strokeWidth={5} />
+        <circle cx="500" cy="466" r="10" fill="#fff" {...S} strokeWidth={4} />
+        <Face x={500} y={320} s={1.3} />
+      </g>
+      <g transform={`translate(190 250) scale(${t1})`}>
+        <Tag x={0} y={0} text="50만 원" color="#ff6b6b" size={50} />
+        <Tag x={0} y={92} text="내가 산 값" size={34} />
+      </g>
+      <g transform={`translate(810 250) scale(${t2})`}>
+        <Tag x={0} y={0} text="30만 원" color="#2fa84f" size={50} />
+        <Tag x={0} y={92} text="옆 가게" size={34} />
+      </g>
+      {[0, 1, 2].map((i) => {
+        const p = Math.max(0, Math.min(1, (frame - (44 + i * 8)) / 26));
+        return (
+          <g key={i} opacity={p > 0 && p < 1 ? 1 : 0}>
+            <Coin x={interpolate(p, [0, 1], [220, 760])} y={interpolate(p, [0, 1], [430, 380]) - Math.sin(p * Math.PI) * 120} s={0.8} />
+          </g>
+        );
+      })}
+      <Tag x={500} y={610} text="20만 원 차이 = 기회비용" color="#ff8a3d" size={38} />
+      <Sparkle x={880} y={430} size={22} delay={6} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Scale: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const tilt = Math.sin(frame / 22) * 7 + 5;
+  const pan = (label: string, color: string, coins: boolean) => (
+    <g>
+      <path d="M0,0 L-70,120 M0,0 L70,120" stroke={INK} strokeWidth="6" strokeLinecap="round" />
+      <path d="M-100,120 L100,120 C96,160 -96,160 -100,120 Z" fill={color} {...S} />
+      {coins ? (
+        <g>
+          <Coin x={-34} y={90} s={0.8} />
+          <Coin x={30} y={96} s={0.8} />
+          <Coin x={-2} y={56} s={0.8} />
+        </g>
+      ) : (
+        <g transform="translate(0 100) scale(0.34)">
+          <Bowl x={0} y={-60} soup="#ff5a3d" label="" />
+        </g>
+      )}
+      <Tag x={0} y={230} text={label} size={38} />
+    </g>
+  );
+  return (
+    <g>
+      <Cloud x={160} y={110} s={0.8} />
+      <Cloud x={860} y={150} s={0.6} />
+      <g transform={`translate(500 330) scale(${pop}) translate(-500 -330)`}>
+        <ellipse cx="500" cy="590" rx="190" ry="20" fill="#000" opacity="0.14" />
+        <path d="M440,590 L460,230 L540,230 L560,590 Z" fill="url(#gWood)" {...S} />
+        <g transform={`translate(500 210) rotate(${tilt})`}>
+          <rect x="-300" y="-14" width="600" height="28" rx="14" fill="#ffd84d" {...S} />
+          <g transform={`translate(-300 14) rotate(${-tilt})`}>{pan("얻는 것", "#7fb7ff", true)}</g>
+          <g transform={`translate(300 14) rotate(${-tilt})`}>{pan("포기하는 것", "#ffb3c1", false)}</g>
+        </g>
+        <circle cx="500" cy="210" r="30" fill="#ffd84d" {...S} />
+      </g>
+      <Sparkle x={500} y={90} size={24} delay={4} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Columns: React.FC<{ x: number; y: number; s?: number; roof?: string; label?: string }> = ({ x, y, s = 1, roof = "#ff6b6b", label }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <path d="M-190,-110 L0,-210 L190,-110 Z" fill={roof} {...S} />
+    <rect x="-190" y="-110" width="380" height="30" rx="8" fill="#fff" {...S} />
+    {[-132, -66, 0, 66, 132].map((cx) => (
+      <rect key={cx} x={cx - 20} y="-80" width="40" height="160" rx="10" fill="#fff" {...S} strokeWidth={5} />
+    ))}
+    <rect x="-205" y="80" width="410" height="30" rx="10" fill="#e5e7ee" {...S} />
+    <rect x="-225" y="110" width="450" height="30" rx="10" fill="#d4d8e4" {...S} />
+    {label ? <Tag x={0} y={-132} text={label} size={34} color="#2f6bff" /> : null}
+  </g>
+);
+
+const Person: React.FC<{ x: number; y: number; s?: number; color?: string }> = ({ x, y, s = 1, color = "#ffb870" }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <path d="M-50,90 C-50,30 50,30 50,90 Z" fill={color} {...S} />
+    <circle cx="0" cy="-8" r="38" fill="#ffe0c2" {...S} />
+    <Face x={0} y={-4} s={0.7} />
+  </g>
+);
+
+const Megaphone: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const bubble = useSpringAt(14, 8);
+  const draw = Math.max(0, Math.min(1, (frame - 24) / 50));
+  const shake = Math.sin(frame / 3) * 3 * draw;
+  return (
+    <g>
+      <Cloud x={140} y={110} s={0.7} />
+      <g transform={`translate(240 400) scale(${pop}) translate(-240 -400)`}>
+        <Person x={240} y={430} s={1.5} color="#7fb7ff" />
+        <rect x="150" y="520" width="180" height="100" rx="14" fill="url(#gWood)" {...S} />
+        <path d="M318,400 L396,360 L396,450 L318,430 Z" fill="#ffd84d" {...S} />
+      </g>
+      <g transform={`translate(430 190) scale(${bubble})`}>
+        <path d="M-120,-60 H150 a30,30 0 0 1 30,30 V40 a30,30 0 0 1 -30,30 H-60 L-110,110 L-100,70 H-120 a30,30 0 0 1 -30,-30 V-30 a30,30 0 0 1 30,-30 Z" fill="#fff" {...S} />
+        <text x="15" y="30" textAnchor="middle" fontFamily={fontFamily} fontSize="62" fill="#2f6bff">금리는?</text>
+      </g>
+      <g transform={`translate(${620 + shake} 380)`}>
+        <rect x="0" y="0" width="340" height="230" rx="24" fill="#fff" {...S} />
+        <path pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} d="M24,170 L80,120 L130,150 L190,60 L240,130 L290,40 L320,80" fill="none" stroke="#ff4d4d" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <Tag x={790} y={330} text="주가 요동" color="#ff8a3d" size={38} />
+      <Sparkle x={560} y={300} delay={3} />
+    </g>
+  );
+};
+
+const CBank: React.FC = () => {
+  const frame = useCurrentFrame();
+  const top = useSpringAt(2);
+  const b1 = useSpringAt(18);
+  const b2 = useSpringAt(26);
+  const nope = useSpringAt(40, 8);
+  const dash = -frame * 3;
+  return (
+    <g>
+      <Cloud x={140} y={90} s={0.6} />
+      <Cloud x={880} y={100} s={0.6} />
+      <g transform={`translate(500 260) scale(${top * 0.85}) translate(-500 -260)`}>
+        <Columns x={500} y={250} label="중앙은행" />
+      </g>
+      <path d="M440,430 C400,490 330,500 280,520" fill="none" stroke={INK} strokeWidth="8" strokeDasharray="18 14" strokeDashoffset={dash} strokeLinecap="round" />
+      <path d="M560,430 C600,490 670,500 720,520" fill="none" stroke={INK} strokeWidth="8" strokeDasharray="18 14" strokeDashoffset={dash} strokeLinecap="round" />
+      <g transform={`translate(230 590) scale(${b1})`}>
+        <Office x={0} y={0} s={0.42} />
+        <Tag x={0} y={60} text="은행" size={34} />
+      </g>
+      <g transform={`translate(770 590) scale(${b2})`}>
+        <Office x={0} y={0} s={0.42} />
+        <Tag x={0} y={60} text="은행" size={34} />
+      </g>
+      <g transform={`translate(880 300) scale(${nope})`}>
+        <Person x={0} y={0} s={0.9} color="#ffb3c1" />
+        <path d="M-60,-70 L60,90 M60,-70 L-60,90" stroke="#ff4d4d" strokeWidth="14" strokeLinecap="round" />
+        <Tag x={0} y={140} text="개인 ✕" size={32} />
+      </g>
+    </g>
+  );
+};
+
+const Fed: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const crown = useSpringAt(22, 8);
+  const bob = Math.sin(frame / 12) * 6;
+  return (
+    <g>
+      <Cloud x={160} y={110} s={0.7} />
+      <Cloud x={860} y={150} s={0.6} />
+      <g transform={`translate(500 330) scale(${pop}) translate(-500 -330)`}>
+        <Columns x={500} y={400} s={1.0} roof="#2f6bff" label="미국 연준" />
+      </g>
+      <g transform={`translate(500 ${120 + bob}) scale(${crown})`}>
+        <path d="M-70,30 L-80,-30 L-36,0 L0,-50 L36,0 L80,-30 L70,30 Z" fill="#ffd84d" {...S} />
+        <circle cx="-80" cy="-34" r="9" fill="#ff6b6b" {...S} strokeWidth={4} />
+        <circle cx="0" cy="-54" r="9" fill="#ff6b6b" {...S} strokeWidth={4} />
+        <circle cx="80" cy="-34" r="9" fill="#ff6b6b" {...S} strokeWidth={4} />
+      </g>
+      <Tag x={500} y={636} text="세계 경제 대통령?" color="#ff8a3d" size={38} />
+      <Sparkle x={250} y={300} size={24} delay={4} color="#fff7b0" />
+      <Sparkle x={760} y={330} size={20} delay={11} />
+    </g>
+  );
+};
+
+const Globe: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const shake = Math.sin(frame / 2.2) * 3;
+  const mini = (x: number, y: number, up: boolean, d: number) => {
+    const p = Math.max(0, Math.min(1, (frame - d) / 18));
+    return (
+      <g transform={`translate(${x} ${y}) scale(${p})`}>
+        <rect x="-70" y="-50" width="140" height="100" rx="16" fill="#fff" {...S} strokeWidth={5} />
+        <path d={up ? "M-46,28 L-14,-4 L8,12 L44,-26" : "M-46,-26 L-14,4 L8,-12 L44,28"} fill="none" stroke={up ? "#ff4d4d" : "#2f6bff"} strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    );
+  };
+  return (
+    <g>
+      <Cloud x={500} y={70} s={0.6} />
+      <g transform={`translate(${500 + shake} 340) scale(${pop})`}>
+        <circle r="170" fill="#7fb7ff" {...S} />
+        <path d="M-120,-60 C-80,-110 -30,-100 -10,-60 C0,-30 -50,-10 -80,-20 C-110,-24 -130,-40 -120,-60 Z" fill="#5ccf6b" {...S} strokeWidth={5} />
+        <path d="M30,20 C70,-20 120,-10 130,30 C134,70 80,100 50,80 C24,64 14,40 30,20 Z" fill="#5ccf6b" {...S} strokeWidth={5} />
+        <path d="M-70,90 C-40,70 -10,90 -20,120 C-34,140 -70,130 -70,90 Z" fill="#5ccf6b" {...S} strokeWidth={5} />
+        <ellipse cx="-70" cy="-100" rx="24" ry="38" fill="#fff" opacity="0.45" transform="rotate(30 -70 -100)" />
+        <Face x={10} y={-30} s={1.5} />
+      </g>
+      {mini(180, 200, true, 12)}
+      {mini(820, 190, false, 20)}
+      {mini(170, 470, false, 28)}
+      {mini(830, 480, true, 36)}
+      <Tag x={500} y={620} text="전 세계 증시 요동" color="#ff8a3d" size={40} />
+    </g>
+  );
+};
+
+const News: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const lens = useSpringAt(20, 9);
+  const wob = Math.sin(frame / 10) * 6;
+  return (
+    <g>
+      <Cloud x={150} y={120} s={0.7} />
+      <g transform={`translate(430 330) scale(${pop}) translate(-430 -330)`}>
+        <rect x="200" y="100" width="460" height="480" rx="26" fill="#fff" {...S} />
+        <rect x="236" y="136" width="388" height="70" rx="14" fill="#2f6bff" {...S} strokeWidth={5} />
+        <text x="430" y="188" textAnchor="middle" fontFamily={fontFamily} fontSize="46" fill="#fff">경제 뉴스</text>
+        {[240, 290, 340, 450, 500].map((y) => (
+          <rect key={y} x="236" y={y} width={y % 100 === 40 ? 250 : 388} height="22" rx="11" fill="#d4d8e4" />
+        ))}
+        <rect x="236" y="382" width="388" height="48" rx="12" fill="#fff3b0" {...S} strokeWidth={4} />
+        <text x="430" y="418" textAnchor="middle" fontFamily={fontFamily} fontSize="34" fill={INK}>연준 발표</text>
+      </g>
+      <g transform={`translate(${690 + wob} ${440 - wob}) scale(${lens})`}>
+        <circle r="78" fill="#cfe6ff" opacity="0.7" {...S} />
+        <path d="M54,54 L120,120" stroke={INK} strokeWidth="22" strokeLinecap="round" />
+      </g>
+      <Sparkle x={830} y={190} size={26} delay={6} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Ipo: React.FC = () => {
+  const frame = useCurrentFrame();
+  const open = useSpringAt(16, 14);
+  const label = useSpringAt(34, 9);
+  const beam = 0.35 + 0.15 * Math.sin(frame / 8);
+  return (
+    <g>
+      <path d="M500,0 L300,560 L700,560 Z" fill="#fff7b0" opacity={beam} />
+      <rect x="40" y="590" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      <Office x={500} y={540} s={1.25} />
+      <g transform={`translate(${-open * 250} 0)`}>
+        <path d="M120,40 L500,40 L500,590 L120,590 C160,420 160,200 120,40 Z" fill="#ff6b6b" {...S} />
+        <path d="M250,40 C270,240 270,400 240,590 M370,40 C380,240 380,400 360,590" fill="none" stroke="#d94a4a" strokeWidth="8" />
+      </g>
+      <g transform={`translate(${open * 250} 0)`}>
+        <path d="M880,40 L500,40 L500,590 L880,590 C840,420 840,200 880,40 Z" fill="#ff6b6b" {...S} />
+        <path d="M750,40 C730,240 730,400 760,590 M630,40 C620,240 620,400 640,590" fill="none" stroke="#d94a4a" strokeWidth="8" />
+      </g>
+      <g transform={`translate(500 640) scale(${label})`}>
+        <Tag x={0} y={0} text="IPO 기업 공개!" color="#2f6bff" size={46} />
+      </g>
+      <Sparkle x={200} y={160} delay={2} />
+      <Sparkle x={800} y={200} size={26} delay={8} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Launch: React.FC = () => {
+  const frame = useCurrentFrame();
+  const t = Math.max(0, Math.min(1, (frame - 14) / 70));
+  const x = interpolate(t, [0, 1], [150, 850]);
+  const hop = Math.abs(Math.sin(t * Math.PI * 3)) * 130;
+  const pass = useSpringAt(70, 9);
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.7} />
+      <rect x="40" y="560" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      {[330, 500, 670].map((hx) => (
+        <g key={hx} transform={`translate(${hx} 540)`}>
+          <rect x="-8" y="-90" width="16" height="90" fill="#fff" {...S} strokeWidth={5} />
+          <rect x="-70" y="-110" width="140" height="26" rx="8" fill="#ff6b6b" {...S} strokeWidth={5} />
+        </g>
+      ))}
+      <g transform={`translate(${x} ${470 - hop})`}>
+        <rect x="-70" y="-70" width="140" height="140" rx="22" fill="#7fb7ff" {...S} />
+        <path d="M-70,-20 H70" stroke={INK} strokeWidth="6" />
+        <Face x={0} y={22} s={0.9} />
+        <g transform="translate(60 -80) rotate(14)">
+          <path d="M0,-40 L12,-14 L40,-18 L22,4 L38,28 L8,20 L-4,46 L-12,20 L-40,28 L-22,4 L-38,-18 L-10,-14 Z" fill="#ffd84d" {...S} strokeWidth={5} />
+        </g>
+      </g>
+      <g transform={`translate(840 230) scale(${pass})`}>
+        <Tag x={0} y={0} text="심사 통과!" color="#2fa84f" size={40} />
+      </g>
+      <Tag x={500} y={650} text="까다로운 허들을 넘어야 상장" size={34} />
+    </g>
+  );
+};
+
+const Market: React.FC = () => {
+  const frame = useCurrentFrame();
+  const top = useSpringAt(2);
+  const l = useSpringAt(16);
+  const r = useSpringAt(26);
+  const sw = Math.sin(frame / 10) * 14;
+  return (
+    <g>
+      <Cloud x={150} y={100} s={0.6} />
+      <Cloud x={860} y={90} s={0.6} />
+      <g transform={`translate(500 240) scale(${top * 0.8}) translate(-500 -240)`}>
+        <Columns x={500} y={230} label="거래소" roof="#2fa84f" />
+      </g>
+      <g transform={`translate(190 520) scale(${l})`}>
+        <Person x={0} y={0} s={1} color="#7fb7ff" />
+        <Tag x={0} y={150} text="사요" size={36} color="#2f6bff" />
+      </g>
+      <g transform={`translate(810 520) scale(${r})`}>
+        <Person x={0} y={0} s={1} color="#ffb870" />
+        <Tag x={0} y={150} text="팔아요" size={36} color="#ff8a3d" />
+      </g>
+      <g transform={`translate(${500 + sw} 480)`}>
+        <rect x="-70" y="-44" width="140" height="88" rx="16" fill="#fff" {...S} />
+        <text x="0" y="14" textAnchor="middle" fontFamily={fontFamily} fontSize="44" fill={INK}>주식</text>
+      </g>
+      <Sparkle x={500} y={640} size={22} delay={5} color="#fff7b0" />
+    </g>
+  );
+};
+
 export const ART: Record<string, React.FC> = {
   shop: Shop,
   company: Company,
@@ -766,4 +1163,16 @@ export const ART: Record<string, React.FC> = {
   bigger: Bigger,
   return: Return,
   piggy: Piggy,
+  choice: Choice,
+  noodle: Noodle,
+  phone: Phone,
+  scale: Scale,
+  megaphone: Megaphone,
+  cbank: CBank,
+  fed: Fed,
+  globe: Globe,
+  news: News,
+  ipo: Ipo,
+  launch: Launch,
+  market: Market,
 };

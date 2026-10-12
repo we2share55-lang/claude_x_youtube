@@ -1,0 +1,24 @@
+{
+  "source_url": "https://youtu.be/oUDSWlsaRiU",
+  "source_channel": "강지영의 동그라미",
+  "source_title": "슈카가 떠먹여주는 진짜 쉬운 경제 용어 특강",
+  "episodes": [
+    {
+      "title": "IPO 기업공개",
+      "caption": "뉴스에 자주 나오는 IPO, 정확히 무슨 뜻일까요? 기업이 주식을 처음 공개하는 것, 쉽게 정리했어요.",
+      "hashtags": ["#돈병상련", "#경제공부", "#IPO", "#기업공개", "#상장", "#주식기초", "#경제용어", "#돈공부"],
+      "scenes": [
+        {"kind": "hook", "heading": "IPO가 뭘까?", "bullets": [], "art": "company",
+         "narration": "뉴스에 자주 나오는 아이피오, 정확히 무슨 뜻일까요?"},
+        {"kind": "point", "heading": "기업 공개", "bullets": ["주식을 처음 공개", "일반 대중에게 판매"], "art": "ipo",
+         "narration": "아이피오는 기업이 주식을 일반 대중에게 처음 공개하는 것을 말해요. 우리말로는 기업 공개라고 해요."},
+        {"kind": "point", "heading": "신상품 출시처럼", "bullets": ["거래소의 까다로운 심사", "통과해야 상장"], "art": "launch",
+         "narration": "쉽게 말해 새 상품을 시장에 처음 내놓는 것과 비슷해요. 거래소의 까다로운 심사를 통과해야 주식을 상장할 수 있어요."},
+        {"kind": "point", "heading": "누구나 거래해요", "bullets": ["상장 후 자유롭게 거래", "사고파는 시장 열림"], "art": "market",
+         "narration": "상장이 되면 누구나 거래소에서 그 회사의 주식을 사고팔 수 있어요."},
+        {"kind": "outro", "heading": "첫 공개 = IPO", "bullets": [], "art": "piggy",
+         "narration": "기업이 주식 시장에 첫발을 내딛는 아이피오, 이제 한 줄로 설명할 수 있겠죠? 저장해 두고 뉴스에서 만나면 떠올려 보세요."}
+      ]
+    }
+  ]
+}
