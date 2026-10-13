@@ -21,6 +21,7 @@ import sys
 import tempfile
 import time
 import urllib.parse
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -44,6 +45,8 @@ def gh_api(path, *args, binary_to=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--min-gap-hours", type=float, default=0,
+                    help="skip if the account already posted within this many hours (lets the schedule retry safely)")
     a = ap.parse_args()
 
     repo = os.environ.get("GITHUB_REPOSITORY") or sys.exit("GITHUB_REPOSITORY missing")
@@ -70,6 +73,16 @@ def main():
     me = call("GET", f"{GRAPH}/me?" + urllib.parse.urlencode({"fields": "user_id,username", "access_token": token}))
     if str(me.get("user_id")) != uid:
         sys.exit("IG_USER_ID does not match the token's account")
+    if a.min_gap_hours > 0:
+        latest = call("GET", f"{GRAPH}/me/media?" + urllib.parse.urlencode(
+            {"fields": "timestamp", "limit": 1, "access_token": token})).get("data", [])
+        if latest:
+            ts = datetime.strptime(latest[0]["timestamp"], "%Y-%m-%dT%H:%M:%S%z")
+            age_h = (datetime.now(timezone.utc) - ts).total_seconds() / 3600
+            print(f"latest post on the account: {age_h:.1f} h ago")
+            if age_h < a.min_gap_hours:
+                print(f"skip: already posted within {a.min_gap_hours:g} h")
+                return
     print(f"account: @{me.get('username')} | next: {name} ({assets[video_name]['size'] / 1e6:.1f} MB)"
           f" | cover: {'yes' if cover_name in assets else 'no'}")
     if a.dry_run:
