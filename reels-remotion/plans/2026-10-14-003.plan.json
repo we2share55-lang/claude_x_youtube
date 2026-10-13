@@ -1,0 +1,24 @@
+{
+  "source_url": "https://youtu.be/oUDSWlsaRiU",
+  "source_channel": "강지영의 동그라미",
+  "source_title": "슈카가 떠먹여주는 진짜 쉬운 경제 용어 특강",
+  "episodes": [
+    {
+      "title": "코스피와 코스닥",
+      "caption": "코스피와 코스닥, 뭐가 다를까요? 대기업이 모인 코스피, 성장하는 기업이 모인 코스닥, 쉽게 정리했어요.",
+      "hashtags": ["#돈병상련", "#경제공부", "#코스피", "#코스닥", "#주식기초", "#경제용어", "#돈공부"],
+      "scenes": [
+        {"kind": "hook", "heading": "코스피 vs 코스닥", "bullets": [], "art": "kvs",
+         "narration": "코스피랑 코스닥, 도대체 뭐가 다른지 아시나요?"},
+        {"kind": "point", "heading": "대기업의 코스피", "bullets": ["큰 대기업이 많아요", "한국의 대표 시장"], "art": "kospi",
+         "narration": "코스피는 큰 대기업들이 많이 모여 있는 한국의 대표적인 주식 시장이에요."},
+        {"kind": "point", "heading": "성장 기업의 코스닥", "bullets": ["성장 가능성이 큰 기업", "중소·벤처 기업이 많아요"], "art": "kosdaq",
+         "narration": "코스닥은 성장 가능성이 큰 중소기업과 벤처 기업이 빨리 상장해서 자금을 모을 수 있도록 만든 시장이에요."},
+        {"kind": "point", "heading": "지수란?", "bullets": ["시장 전체 흐름을 숫자로", "올랐다 = 전반적 상승"], "art": "index",
+         "narration": "지수는 시장 전체의 가격 흐름을 숫자 하나로 보여 줘요. 지수가 올랐다는 건 시장이 전반적으로 올랐다는 뜻이에요."},
+        {"kind": "outro", "heading": "대기업 vs 성장기업", "bullets": [], "art": "kvs",
+         "narration": "대기업이 많은 코스피, 성장하는 기업이 많은 코스닥. 이제 뉴스를 볼 때 헷갈리지 않겠죠?"}
+      ]
+    }
+  ]
+}

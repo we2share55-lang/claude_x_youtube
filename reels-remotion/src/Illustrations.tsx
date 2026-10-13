@@ -1150,6 +1150,298 @@ const Market: React.FC = () => {
   );
 };
 
+/* ---------- topic pack 3: 레버리지 ---------- */
+
+const Lever: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const press = useSpringAt(18, 9);
+  const ang = -7 + press * 17 + Math.sin(frame / 14) * 1.5;
+  const tag = useSpringAt(34, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={130} s={0.6} />
+      <g transform={`translate(500 330) scale(${pop}) translate(-500 -330)`}>
+        <ellipse cx="400" cy="560" rx="260" ry="18" fill="#000" opacity="0.14" />
+        <g transform={`rotate(${ang} 400 470)`}>
+          <rect x="60" y="450" width="640" height="34" rx="14" fill="url(#gWood)" {...S} />
+          <g transform="translate(120 400)">
+            <Coin x={0} y={0} s={0.9} />
+          </g>
+          <g transform="translate(610 360)">
+            <rect x="-62" y="-62" width="124" height="124" rx="20" fill="#7fb7ff" {...S} />
+            <path d="M-62,-14 H62" stroke={INK} strokeWidth="6" />
+            <Face x={0} y={24} s={0.9} />
+          </g>
+        </g>
+        <path d="M400,470 L330,560 L470,560 Z" fill="#ffd84d" {...S} />
+      </g>
+      <g transform={`translate(500 ${600}) scale(${tag})`}>
+        <Tag x={0} y={0} text="작은 힘 → 큰 효과" color="#ff8a3d" size={38} />
+      </g>
+      <Sparkle x={820} y={250} size={24} delay={6} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Double: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = useSpringAt(4);
+  const arrow = useSpringAt(20);
+  const b = useSpringAt(32, 9);
+  const pulse = 1 + 0.04 * Math.sin(frame / 5);
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.6} />
+      <g transform={`translate(230 360) scale(${a}) translate(-230 -360)`}>
+        <Coin x={230} y={340} s={2.2} />
+        <Tag x={230} y={500} text="투자 100원" size={38} />
+      </g>
+      <g transform={`translate(500 340) scale(${arrow})`}>
+        <path d="M-70,0 L40,0 M6,-40 L50,0 L6,40" fill="none" stroke={INK} strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" />
+        <Tag x={0} y={-90} text="2배" color="#2f6bff" size={44} />
+      </g>
+      <g transform={`translate(770 360) scale(${b * pulse}) translate(-770 -360)`}>
+        <Coin x={700} y={380} s={1.9} />
+        <Coin x={830} y={380} s={1.9} />
+        <Coin x={765} y={290} s={1.9} />
+        <Tag x={770} y={500} text="효과는 200원" color="#ff8a3d" size={38} />
+      </g>
+      <Sparkle x={500} y={560} size={22} delay={8} color="#fff7b0" />
+    </g>
+  );
+};
+
+const Risk: React.FC = () => {
+  const bar1 = useSpringAt(8, 14);
+  const bar2 = useSpringAt(24, 14);
+  const t = useSpringAt(44, 8);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.6} />
+      <Cloud x={860} y={100} s={0.6} />
+      <rect x="120" y="170" width="760" height="10" rx="5" fill={INK} />
+      <g transform="translate(300 180)">
+        <rect x="-70" y="0" width="140" height={bar1 * 130} rx="14" fill="#7fb7ff" {...S} />
+        <Tag x={0} y={-40} text="시장 -10%" size={36} />
+      </g>
+      <g transform="translate(700 180)">
+        <rect x="-70" y="0" width="140" height={bar2 * 260} rx="14" fill="#ff6b6b" {...S} />
+        <Tag x={0} y={-40} text="2배 -20%" color="#ff4d4d" size={36} />
+      </g>
+      <g transform={`translate(500 560) scale(${t})`}>
+        <Tag x={0} y={0} text="손실도 2배로 커져요" color="#ff8a3d" size={40} />
+      </g>
+    </g>
+  );
+};
+
+/* ---------- topic pack 4: 선물 / 코스피·코스닥 ---------- */
+
+const Gift: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const q = useSpringAt(22, 8);
+  const hop = Math.abs(Math.sin(frame / 12)) * 14;
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={130} s={0.6} />
+      <g transform={`translate(0 ${-hop}) translate(500 340) scale(${pop}) translate(-500 -340)`}>
+        <ellipse cx="500" cy="560" rx="200" ry="18" fill="#000" opacity="0.14" />
+        <rect x="340" y="320" width="320" height="230" rx="22" fill="#ff8fb3" {...S} />
+        <rect x="320" y="270" width="360" height="70" rx="18" fill="#ffb3c8" {...S} />
+        <rect x="470" y="270" width="60" height="280" fill="#ffd84d" {...S} />
+        <path d="M500,270 C440,200 380,230 420,270 Z M500,270 C560,200 620,230 580,270 Z" fill="#ffd84d" {...S} />
+        <Face x={400} y={430} s={1.1} />
+      </g>
+      <g transform={`translate(780 220) scale(${q})`}>
+        <circle r="64" fill="#fff" {...S} />
+        <text x="0" y="30" textAnchor="middle" fontFamily={fontFamily} fontSize="90" fill="#ff8a3d">?</text>
+      </g>
+      <Tag x={500} y={590} text="공짜 선물이 아니에요" color="#ff8a3d" size={38} />
+    </g>
+  );
+};
+
+const Contract: React.FC = () => {
+  const doc = useSpringAt(2);
+  const stamp = useSpringAt(26, 7);
+  const cal = useSpringAt(14);
+  return (
+    <g>
+      <Cloud x={150} y={100} s={0.6} />
+      <g transform={`translate(330 330) scale(${doc}) translate(-330 -330)`}>
+        <rect x="170" y="110" width="320" height="400" rx="24" fill="#fff" {...S} />
+        <text x="330" y="180" textAnchor="middle" fontFamily={fontFamily} fontSize="52" fill={INK}>계약서</text>
+        {[230, 280, 330, 380].map((y) => <rect key={y} x="210" y={y} width={y === 380 ? 160 : 240} height="20" rx="10" fill="#d4d8e4" />)}
+        <path d="M220,460 C250,420 270,480 300,440 C320,420 340,470 380,450" fill="none" stroke="#2f6bff" strokeWidth="8" strokeLinecap="round" />
+      </g>
+      <g transform={`translate(430 450) scale(${stamp}) rotate(-12)`}>
+        <circle r="54" fill="none" stroke="#ff4d4d" strokeWidth="10" />
+        <text x="0" y="14" textAnchor="middle" fontFamily={fontFamily} fontSize="40" fill="#ff4d4d">약속</text>
+      </g>
+      <g transform={`translate(740 290) scale(${cal})`}>
+        <rect x="-110" y="-120" width="220" height="240" rx="22" fill="#fff" {...S} />
+        <rect x="-110" y="-120" width="220" height="70" rx="22" fill="#ff6b6b" {...S} />
+        <text x="0" y="-70" textAnchor="middle" fontFamily={fontFamily} fontSize="42" fill="#fff">미래</text>
+        <text x="0" y="50" textAnchor="middle" fontFamily={fontFamily} fontSize="64" fill={INK}>1년 뒤</text>
+      </g>
+      <Tag x={500} y={575} text="미래 가격을 오늘 약속해요" color="#2f6bff" size={38} />
+    </g>
+  );
+};
+
+const Oil: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const price = useSpringAt(18, 8);
+  const cal = useSpringAt(30);
+  const dash = -frame * 3;
+  return (
+    <g>
+      <Cloud x={500} y={80} s={0.6} />
+      <g transform={`translate(260 380) scale(${pop}) translate(-260 -380)`}>
+        <ellipse cx="260" cy="540" rx="140" ry="16" fill="#000" opacity="0.14" />
+        <rect x="160" y="220" width="200" height="320" rx="30" fill="#4a4f5e" {...S} />
+        <path d="M160,290 H360 M160,470 H360" stroke={INK} strokeWidth="7" />
+        <Face x={260} y={380} s={1.4} />
+        <path d="M260,160 C300,210 320,240 300,270 C280,290 240,290 220,270 C200,240 230,210 260,160 Z" fill="#ffd84d" {...S} strokeWidth={6} />
+      </g>
+      <g transform={`translate(560 220) scale(${price})`}>
+        <Tag x={0} y={0} text="지금 가격 확정" color="#2f6bff" size={42} />
+      </g>
+      <path d="M380,330 C470,330 560,330 690,330" fill="none" stroke={INK} strokeWidth="8" strokeDasharray="18 14" strokeDashoffset={dash} strokeLinecap="round" />
+      <g transform={`translate(790 330) scale(${cal})`}>
+        <rect x="-90" y="-100" width="180" height="200" rx="20" fill="#fff" {...S} />
+        <rect x="-90" y="-100" width="180" height="60" rx="20" fill="#ff6b6b" {...S} />
+        <text x="0" y="-56" textAnchor="middle" fontFamily={fontFamily} fontSize="34" fill="#fff">도착</text>
+        <text x="0" y="40" textAnchor="middle" fontFamily={fontFamily} fontSize="52" fill={INK}>1년 뒤</text>
+      </g>
+      <Tag x={640} y={560} text="석유 선물 계약" size={38} />
+    </g>
+  );
+};
+
+const WinLose: React.FC = () => {
+  const frame = useCurrentFrame();
+  const l = useSpringAt(4);
+  const r = useSpringAt(14);
+  const arrow = useSpringAt(30);
+  const dash = -frame * 3;
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.6} />
+      <g transform={`translate(210 320) scale(${l})`}>
+        <Person x={0} y={0} s={1.5} color="#7fb7ff" />
+        <Tag x={0} y={170} text="이익 +" color="#2fa84f" size={40} />
+        <Coin x={-110} y={-90} s={0.9} />
+        <Coin x={110} y={-90} s={0.9} />
+      </g>
+      <g transform={`translate(790 320) scale(${r})`}>
+        <Person x={0} y={0} s={1.5} color="#ffb3c1" />
+        <Tag x={0} y={170} text="손실 -" color="#ff4d4d" size={40} />
+      </g>
+      <g transform={`translate(500 300) scale(${arrow})`}>
+        <path d="M-120,0 H120 M80,-30 L120,0 L80,30" fill="none" stroke={INK} strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="24 14" strokeDashoffset={dash} />
+        <Tag x={0} y={-70} text="한쪽이 번 만큼" size={34} />
+      </g>
+    </g>
+  );
+};
+
+const Kvs: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = useSpringAt(2);
+  const b = useSpringAt(12);
+  const vs = useSpringAt(24, 8);
+  return (
+    <g>
+      <Cloud x={500} y={80} s={0.6} />
+      <g transform={`translate(250 400) scale(${a}) translate(-250 -400)`}>
+        <Office x={250} y={440} s={1.0} />
+        <Tag x={250} y={540} text="코스피" color="#2f6bff" size={42} />
+      </g>
+      <g transform={`translate(750 420) scale(${b}) translate(-750 -420)`}>
+        <Office x={750} y={440} s={0.75} />
+        <Tag x={750} y={540} text="코스닥" color="#2fa84f" size={42} />
+      </g>
+      <g transform={`translate(500 ${270 + Math.sin(frame / 10) * 6}) scale(${vs})`}>
+        <circle r="62" fill="#ffd84d" {...S} />
+        <text x="0" y="22" textAnchor="middle" fontFamily={fontFamily} fontSize="62" fill={INK}>VS</text>
+      </g>
+    </g>
+  );
+};
+
+const Kospi: React.FC = () => {
+  const a = useSpringAt(2);
+  const b = useSpringAt(10);
+  const c = useSpringAt(18);
+  const tag = useSpringAt(30, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={120} s={0.6} />
+      <rect x="40" y="500" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      <g transform={`translate(240 500) scale(${a}) translate(-240 -500)`}><Office x={240} y={500} s={1.1} /></g>
+      <g transform={`translate(500 500) scale(${b}) translate(-500 -500)`}><Office x={500} y={500} s={1.3} /></g>
+      <g transform={`translate(770 500) scale(${c}) translate(-770 -500)`}><Office x={770} y={500} s={1.0} /></g>
+      <g transform={`translate(500 575) scale(${tag})`}>
+        <Tag x={0} y={0} text="코스피: 대기업 중심" color="#2f6bff" size={36} />
+      </g>
+    </g>
+  );
+};
+
+const Kosdaq: React.FC = () => {
+  const frame = useCurrentFrame();
+  const a = useSpringAt(2);
+  const grow = useSpringAt(16, 9);
+  const tag = useSpringAt(30, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={120} s={0.6} />
+      <rect x="40" y="500" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      {[220, 500, 780].map((x, i) => (
+        <g key={x} transform={`translate(${x} 500) scale(${a})`}>
+          <Office x={0} y={0} s={0.7} />
+          <g transform={`translate(0 ${-200 * 0.7 - 30 - Math.sin((frame + i * 9) / 8) * 6}) scale(${grow})`}>
+            <path d="M0,0 V-50" stroke={INK} strokeWidth="8" strokeLinecap="round" />
+            <path d="M0,-30 C-40,-40 -50,-80 -10,-90 C0,-60 0,-40 0,-30 Z M0,-40 C40,-50 50,-90 10,-100 C0,-70 0,-50 0,-40 Z" fill="#5ccf6b" {...S} strokeWidth={5} />
+          </g>
+        </g>
+      ))}
+      <g transform={`translate(500 575) scale(${tag})`}>
+        <Tag x={0} y={0} text="코스닥: 성장하는 기업 중심" color="#2fa84f" size={34} />
+      </g>
+    </g>
+  );
+};
+
+const Index: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const draw = Math.max(0, Math.min(1, (frame - 14) / 50));
+  const tag = useSpringAt(46, 9);
+  return (
+    <g>
+      <Cloud x={150} y={100} s={0.6} />
+      <g transform={`translate(500 330) scale(${pop}) translate(-500 -330)`}>
+        <rect x="140" y="120" width="720" height="360" rx="28" fill="#fff" {...S} />
+        <path d="M200,420 H800 M200,330 H800 M200,240 H800" stroke="#e5e7ee" strokeWidth="6" />
+        <path pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} d="M200,410 L300,360 L380,380 L480,300 L560,330 L680,220 L800,170" fill="none" stroke="#ff4d4d" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="190" y="180" fontFamily={fontFamily} fontSize="52" fill={INK}>지수</text>
+      </g>
+      <g transform={`translate(500 560) scale(${tag})`}>
+        <Tag x={0} y={0} text="시장 전체 흐름을 숫자 하나로" color="#ff8a3d" size={34} />
+      </g>
+    </g>
+  );
+};
+
 export const ART: Record<string, React.FC> = {
   shop: Shop,
   company: Company,
@@ -1175,4 +1467,15 @@ export const ART: Record<string, React.FC> = {
   ipo: Ipo,
   launch: Launch,
   market: Market,
+  lever: Lever,
+  double: Double,
+  risk: Risk,
+  gift: Gift,
+  contract: Contract,
+  oil: Oil,
+  winlose: WinLose,
+  kvs: Kvs,
+  kospi: Kospi,
+  kosdaq: Kosdaq,
+  index: Index,
 };

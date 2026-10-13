@@ -118,6 +118,63 @@ export const MyComposition = () => {
         height={1920}
         defaultProps={{ kicker: "쉬운 경제 60초", line1: "IPO", line2: "기업공개란?", art: "ipo", tagline: "주식 첫 공개 이야기" }}
       />
+      <Composition
+        id="Reel-2026-10-14-001"
+        component={Reel}
+        durationInFrames={1500}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={calculateMetadata}
+        defaultProps={{ file: "2026-10-14-001.json", timeline: null }}
+      />
+      <Composition
+        id="Thumb-2026-10-14-001"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "레버리지", line2: "지렛대 투자?", art: "lever", tagline: "기회도 위험도 2배" }}
+      />
+      <Composition
+        id="Reel-2026-10-14-002"
+        component={Reel}
+        durationInFrames={1500}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={calculateMetadata}
+        defaultProps={{ file: "2026-10-14-002.json", timeline: null }}
+      />
+      <Composition
+        id="Reel-2026-10-14-003"
+        component={Reel}
+        durationInFrames={1500}
+        fps={30}
+        width={1080}
+        height={1920}
+        calculateMetadata={calculateMetadata}
+        defaultProps={{ file: "2026-10-14-003.json", timeline: null }}
+      />
+      <Composition
+        id="Thumb-2026-10-14-002"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "선물", line2: "공짜 선물일까?", art: "contract", tagline: "미래 가격을 미리 정해요" }}
+      />
+      <Composition
+        id="Thumb-2026-10-14-003"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "코스피 vs", line2: "코스닥 차이", art: "kvs", tagline: "대기업 vs 성장기업" }}
+      />
     </>
   );
 };

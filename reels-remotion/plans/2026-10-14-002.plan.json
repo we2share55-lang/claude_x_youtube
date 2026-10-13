@@ -1,0 +1,24 @@
+{
+  "source_url": "https://youtu.be/oUDSWlsaRiU",
+  "source_channel": "강지영의 동그라미",
+  "source_title": "슈카가 떠먹여주는 진짜 쉬운 경제 용어 특강",
+  "episodes": [
+    {
+      "title": "선물",
+      "caption": "주식 용어 '선물', 공짜 선물이 아니에요! 미래 가격을 미리 정하는 계약이라는 뜻, 쉽게 정리했어요.",
+      "hashtags": ["#돈병상련", "#경제공부", "#선물거래", "#경제용어", "#주식기초", "#돈공부", "#투자기초"],
+      "scenes": [
+        {"kind": "hook", "heading": "공짜 선물일까?", "bullets": [], "art": "gift",
+         "narration": "주식 시장에서 말하는 선물은 공짜 선물이 아니에요. 과연 어떤 뜻일까요?"},
+        {"kind": "point", "heading": "미래를 약속해요", "bullets": ["미래 시점의 거래", "가격과 수량을 미리 정함"], "art": "contract",
+         "narration": "선물은 영어로 퓨처스라고 해요. 미래의 정해진 날에 물건을 거래하기로 미리 약속하는 계약이에요."},
+        {"kind": "point", "heading": "석유 예시", "bullets": ["1년 뒤 도착할 석유", "가격을 지금 확정"], "art": "oil",
+         "narration": "쉽게 말해 일 년 뒤에 도착할 석유의 가격을 지금 미리 정하고 계약을 맺는 거예요."},
+        {"kind": "point", "heading": "이익과 손실", "bullets": ["가격이 크게 변하면", "한쪽은 이익 한쪽은 손실"], "art": "winlose",
+         "narration": "만기에 가격이 크게 달라지면, 한쪽이 번 만큼 다른 한쪽이 잃게 돼요."},
+        {"kind": "outro", "heading": "선물 = 미래 가격 계약", "bullets": [], "art": "contract",
+         "narration": "선물은 미래 가격을 거래하는 계약이라는 점, 기억해 두세요."}
+      ]
+    }
+  ]
+}
