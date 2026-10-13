@@ -2,12 +2,15 @@ name: publish-reel
 
 # Posts the next queued reel (draft release `reel-*`) to Instagram once a day.
 # 11:13 UTC = 20:13 Korea time. Minute 0 is the busiest moment on GitHub and scheduled runs
-# there get delayed or dropped, so the schedule uses an off-peak minute plus one retry an
-# hour later. A retry is a no-op when the account already posted in the last 20 hours.
+# there get delayed or dropped, so the schedule uses off-peak minutes with several retries
+# (20:13, 20:43, 21:13, 22:13 Korea time). A retry is a no-op when the account already
+# posted in the last 20 hours.
 on:
   schedule:
     - cron: "13 11 * * *"
+    - cron: "43 11 * * *"
     - cron: "13 12 * * *"
+    - cron: "13 13 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
