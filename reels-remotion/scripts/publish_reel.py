@@ -100,7 +100,7 @@ def main():
     for p in (video, caption_path, *([cover] if cover else [])):
         if not p.is_file():
             sys.exit(f"missing file: {p}")
-    caption = caption_path.read_text(encoding="utf-8").strip()
+    caption = caption_path.read_text(encoding="utf-8-sig").strip()
     if len(caption) > 2200:
         sys.exit(f"caption too long: {len(caption)} > 2200")
 

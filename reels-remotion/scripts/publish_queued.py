@@ -92,7 +92,7 @@ def main():
     tmp = Path(tempfile.mkdtemp())
     cap_path = tmp / cap_name
     gh_api(f"repos/{repo}/releases/assets/{assets[cap_name]['id']}", "-H", "Accept: application/octet-stream", binary_to=cap_path)
-    caption = cap_path.read_text(encoding="utf-8").strip()
+    caption = cap_path.read_text(encoding="utf-8-sig").strip()
     if not caption or len(caption) > 2200:
         sys.exit(f"bad caption length: {len(caption)}")
 
