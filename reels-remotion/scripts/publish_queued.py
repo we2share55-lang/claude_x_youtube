@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Post the next queued reel to Instagram (run daily by .github/workflows/publish-reel.yml).
 
 Queue = DRAFT releases on this repo whose tag starts with `reel-` (created by queue_reel.py).
