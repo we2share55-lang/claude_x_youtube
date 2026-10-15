@@ -7,8 +7,8 @@
 
 | 경로 | 내용 |
 |------|------|
-| [`reels-remotion`](reels-remotion) | Remotion 프로젝트: 한글 폰트 Jua, 코드로 그린 만화 일러스트, 동전 캐릭터, 단어 하이라이트 자막, 썸네일 |
-| [`reels-remotion/plans`](reels-remotion/plans) | 만든 영상의 대본(plan) 파일. 영상 파일명은 `YYYY-MM-DD-NNN` |
+| 이 저장소 전체 | Remotion 프로젝트(`src/`, `public/`): 한글 폰트 Jua, 코드로 그린 만화 일러스트, 동전 캐릭터, 단어 하이라이트 자막, 썸네일 |
+| [`plans`](plans) | 만든 영상의 대본(plan) 파일. 영상 파일명은 `YYYY-MM-DD-NNN` |
 
 ## 만드는 순서 (요약)
 
@@ -22,7 +22,7 @@
 ## 준비물
 
 - `youtube-skills` 저장소를 받아 `.\install-skills.ps1` 실행 (스킬이 `~/.claude/skills`에 설치됨)
-- Node 20+, `reels-remotion`에서 `npm i`, Remotion 스킬: `npx skills add remotion-dev/skills -g -a claude-code -y`
+- Node 20+, 이 폴더에서 `npm i`, Remotion 스킬: `npx skills add remotion-dev/skills -g -a claude-code -y`
 - 환경변수 `GEMINI_API_KEY`
 - 본인 참조 음성(`ref_voice.wav/txt`)은 저장소에 없습니다. 각 PC에서 직접 넣습니다.
 

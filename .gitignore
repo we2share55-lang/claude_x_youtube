@@ -4,10 +4,15 @@
 *.key
 
 # Remotion project
-reels-remotion/node_modules/
-reels-remotion/out/
-reels-remotion/public/*.wav
-reels-remotion/public/20*.json
+node_modules/
+out/
+dist/
+public/*.wav
+public/20*.json
+
+# Python
+__pycache__/
+*.pyc
 
 # OS
 .DS_Store

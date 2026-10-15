@@ -42,4 +42,4 @@ jobs:
         run: |
           args="--min-gap-hours $MIN_GAP"
           if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
-          python3 reels-remotion/scripts/publish_queued.py $args
+          python3 scripts/publish_queued.py $args
