@@ -1442,7 +1442,218 @@ const Index: React.FC = () => {
   );
 };
 
+/* ---------- interest-rate topic (2026-10-15) ---------- */
+
+const Discount: React.FC = () => {
+  const frame = useCurrentFrame();
+  const left = useSpringAt(2);
+  const arrow = useSpringAt(16);
+  const right = useSpringAt(28, 9);
+  const tag = useSpringAt(42, 9);
+  return (
+    <g>
+      <Cloud x={500} y={90} s={0.6} />
+      <g transform={`translate(230 340) scale(${left}) translate(-230 -340)`}>
+        <Coin x={190} y={360} s={2.3} />
+        <Coin x={290} y={300} s={1.6} />
+        <Tag x={230} y={500} text="1년 뒤 100만 원" size={34} />
+      </g>
+      <g transform={`translate(500 340) scale(${arrow})`}>
+        <path d="M-70,0 L40,0 M6,-40 L50,0 L6,40" fill="none" stroke={INK} strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" />
+        <Tag x={0} y={-90} text="할인율" color="#2f6bff" size={40} />
+      </g>
+      <g transform={`translate(780 370) scale(${right * (1 + 0.03 * Math.sin(frame / 6))}) translate(-780 -370)`}>
+        <Coin x={780} y={370} s={1.5} />
+        <Tag x={780} y={500} text="지금 가치" color="#ff8a3d" size={34} />
+      </g>
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="미래 돈을 지금 가치로 계산" color="#2fa84f" size={30} />
+      </g>
+    </g>
+  );
+};
+
+const RatesUp: React.FC = () => {
+  const frame = useCurrentFrame();
+  const up = useSpringAt(2);
+  const shrink = interpolate(frame, [14, 50], [2.4, 1.2], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const tag = useSpringAt(46, 9);
+  const bob = Math.sin(frame / 8) * 6;
+  const fill = Math.min(1, frame / 40);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <g transform={`translate(260 380) scale(${up}) translate(-260 -380)`}>
+        <rect x="200" y="150" width="120" height="360" rx="60" fill="#fff" {...S} />
+        <rect x="236" y={150 + 360 - 60 - 220 * fill} width="48" height={60 + 220 * fill} rx="24" fill="#ff4d4d" />
+        <circle cx="260" cy="510" r="52" fill="#ff4d4d" {...S} />
+        <path d="M380,330 L380,180 M340,220 L380,170 L420,220" fill="none" stroke="#ff4d4d" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />
+        <Tag x={260} y={120} text="금리 ↑" color="#ff4d4d" size={44} />
+      </g>
+      <g transform={`translate(700 ${380 + bob})`}>
+        <Coin x={0} y={0} s={shrink} />
+      </g>
+      <g transform={`translate(700 520) scale(${tag})`}>
+        <Tag x={0} y={0} text="지금 가치 ↓" color="#2f6bff" size={36} />
+      </g>
+    </g>
+  );
+};
+
+const Growth: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const sway = Math.sin(frame / 5) * Math.min(1, Math.max(0, (frame - 18) / 20)) * 9;
+  const tag = useSpringAt(40, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <g transform={`translate(500 500) scale(${pop}) translate(-500 -500)`}>
+        <rect x="40" y="500" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+        <g transform={`rotate(${sway} 500 500)`}>
+          <path d="M500,500 V250" stroke={INK} strokeWidth="14" strokeLinecap="round" />
+          <path d="M500,380 C420,370 380,300 440,250 C500,290 510,340 500,380 Z" fill="#5ccf6b" {...S} />
+          <path d="M500,330 C580,320 620,250 560,200 C500,240 490,290 500,330 Z" fill="#5ccf6b" {...S} />
+          <Coin x={500} y={200} s={1.5} />
+        </g>
+        <path d="M720,260 C780,240 840,280 900,250 M700,330 C770,310 830,350 910,320" fill="none" stroke="#7aa6ff" strokeWidth="10" strokeLinecap="round" />
+      </g>
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="꿈이 큰 성장주일수록 더 흔들려요" color="#ff8a3d" size={30} />
+      </g>
+    </g>
+  );
+};
+
+const Prices: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const tag = useSpringAt(40, 9);
+  const heights = [130, 210, 300];
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={120} s={0.6} />
+      <g transform={`translate(500 500) scale(${pop}) translate(-500 -500)`}>
+        <rect x="60" y="500" width="880" height="40" rx="14" fill="url(#gWood)" {...S} />
+        {heights.map((h, i) => {
+          const g = Math.min(1, Math.max(0, (frame - 8 - i * 8) / 18));
+          const hh = h * g;
+          return (
+            <g key={i}>
+              <rect x={200 + i * 230} y={500 - hh} width="150" height={hh} rx="16" fill={["#ffd84d", "#ffa63d", "#ff6b6b"][i]} {...S} />
+              <text x={275 + i * 230} y={500 - hh - 14} textAnchor="middle" fontFamily={fontFamily} fontSize="56" fill={INK}>₩</text>
+            </g>
+          );
+        })}
+      </g>
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="물가 상승 → 금리를 올려요" color="#ff4d4d" size={32} />
+      </g>
+    </g>
+  );
+};
+
+const Debt: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const tag = useSpringAt(40, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={120} s={0.6} />
+      <rect x="40" y="500" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      <g transform={`translate(500 500) scale(${pop}) translate(-500 -500)`}>
+        <Columns x={500} y={500} s={1.7} roof="#7b8cff" label="정부" />
+      </g>
+      {[0, 1, 2, 3, 4].map((i) => {
+        const t = ((frame + i * 9) % 60) / 60;
+        const dir = i % 2 === 0 ? -1 : 1;
+        return (
+          <g key={i} transform={`translate(${500 + dir * (130 + t * 300)} ${380 - Math.sin(t * Math.PI) * 120 + t * 100})`} opacity={1 - t * 0.5}>
+            <Coin x={0} y={0} s={0.9} />
+          </g>
+        );
+      })}
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="풀린 돈이 많아지면 금리를 높여요" color="#2f6bff" size={30} />
+      </g>
+    </g>
+  );
+};
+
+const AiInvest: React.FC = () => {
+  const frame = useCurrentFrame();
+  const bot = useSpringAt(2);
+  const tag = useSpringAt(40, 9);
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <g transform={`translate(700 360) scale(${bot}) translate(-700 -360)`}>
+        <path d="M700,150 V210" stroke={INK} strokeWidth="10" strokeLinecap="round" />
+        <circle cx="700" cy="140" r="16" fill="#ff6b6b" {...S} strokeWidth={5} />
+        <rect x="590" y="210" width="220" height="190" rx="36" fill="#cfd8ff" {...S} />
+        <rect x="630" y="250" width="140" height="70" rx="22" fill="#fff" {...S} strokeWidth={5} />
+        <circle cx="668" cy="285" r="10" fill={INK} />
+        <circle cx="732" cy="285" r="10" fill={INK} />
+        <path d="M670,350 H730" stroke={INK} strokeWidth="8" strokeLinecap="round" />
+        <rect x="620" y="400" width="160" height="120" rx="26" fill="#9fb0ff" {...S} />
+        <text x="700" y="478" textAnchor="middle" fontFamily={fontFamily} fontSize="54" fill="#fff">AI</text>
+      </g>
+      {[0, 1, 2, 3].map((i) => {
+        const t = ((frame + i * 12) % 48) / 48;
+        return (
+          <g key={i} transform={`translate(${130 + t * 380} ${430 - Math.sin(t * Math.PI) * 60})`}>
+            <Coin x={0} y={0} s={1} />
+          </g>
+        );
+      })}
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="돈 수요가 늘면 금리도 오르기 쉬워요" color="#ff8a3d" size={30} />
+      </g>
+    </g>
+  );
+};
+
+const Productivity: React.FC = () => {
+  const frame = useCurrentFrame();
+  const pop = useSpringAt(2);
+  const tag = useSpringAt(40, 9);
+  const stack = Math.min(5, Math.floor(Math.max(0, frame - 10) / 7));
+  const arm = Math.sin(frame / 7) * 12;
+  return (
+    <g>
+      <Cloud x={150} y={110} s={0.7} />
+      <Cloud x={860} y={120} s={0.6} />
+      <rect x="40" y="500" width="920" height="40" rx="14" fill="url(#gWood)" {...S} />
+      <g transform={`translate(300 500) scale(${pop}) translate(-300 -500)`}>
+        <rect x="190" y="330" width="220" height="170" rx="30" fill="#cfd8ff" {...S} />
+        <circle cx="260" cy="395" r="14" fill={INK} />
+        <circle cx="340" cy="395" r="14" fill={INK} />
+        <path d="M265,450 H335" stroke={INK} strokeWidth="8" strokeLinecap="round" />
+        <g transform={`rotate(${arm} 410 400)`}>
+          <path d="M410,400 L520,340" stroke={INK} strokeWidth="26" strokeLinecap="round" />
+          <circle cx="526" cy="336" r="22" fill="#ffd84d" {...S} strokeWidth={5} />
+        </g>
+      </g>
+      {Array.from({ length: stack }).map((_, i) => (
+        <g key={i}><Coin x={760} y={470 - i * 52} s={1.1} /></g>
+      ))}
+      <g transform={`translate(500 565) scale(${tag})`}>
+        <Tag x={0} y={0} text="생산성이 커지면 전체 부(富)도 커져요" color="#2fa84f" size={30} />
+      </g>
+    </g>
+  );
+};
+
 export const ART: Record<string, React.FC> = {
+  discount: Discount,
+  ratesup: RatesUp,
+  growth: Growth,
+  prices: Prices,
+  debt: Debt,
+  aiinvest: AiInvest,
+  productivity: Productivity,
   shop: Shop,
   company: Company,
   basket: BasketScene,

@@ -48,4 +48,11 @@ export const ART_BG: Record<string, string> = {
   kospi: "#d8e8ff",
   kosdaq: "#ddf5e3",
   index: "#fff1c9",
+  discount: "#d8e8ff",
+  ratesup: "#ffe8ee",
+  growth: "#ddf5e3",
+  prices: "#fff1c9",
+  debt: "#eadcff",
+  aiinvest: "#d8e8ff",
+  productivity: "#ddf5e3",
 };

@@ -175,6 +175,46 @@ export const MyComposition = () => {
         height={1920}
         defaultProps={{ kicker: "쉬운 경제 60초", line1: "코스피 vs", line2: "코스닥 차이", art: "kvs", tagline: "대기업 vs 성장기업" }}
       />
+      {[1, 2, 3].map((n) => (
+        <Composition
+          key={`reel-15-${n}`}
+          id={`Reel-2026-10-15-00${n}`}
+          component={Reel}
+          durationInFrames={1500}
+          fps={30}
+          width={1080}
+          height={1920}
+          calculateMetadata={calculateMetadata}
+          defaultProps={{ file: `2026-10-15-00${n}.json`, timeline: null }}
+        />
+      ))}
+      <Composition
+        id="Thumb-2026-10-15-001"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "금리가 오르면", line2: "주가는 왜?", art: "ratesup", tagline: "할인율로 이해하기" }}
+      />
+      <Composition
+        id="Thumb-2026-10-15-002"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "금리가 안 내려가는", line2: "3가지 이유", art: "prices", tagline: "물가 · 부채 · 투자" }}
+      />
+      <Composition
+        id="Thumb-2026-10-15-003"
+        component={Thumbnail}
+        durationInFrames={150}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ kicker: "쉬운 경제 60초", line1: "금리가 내려가려면", line2: "필요한 조건", art: "productivity", tagline: "물가 · 지출 · 생산성" }}
+      />
     </>
   );
 };
