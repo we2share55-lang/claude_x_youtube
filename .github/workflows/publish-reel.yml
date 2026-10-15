@@ -1,16 +1,12 @@
 name: publish-reel
 
 # Posts the next queued reel (draft release `reel-*`) to Instagram once a day.
-# 11:13 UTC = 20:13 Korea time. Minute 0 is the busiest moment on GitHub and scheduled runs
-# there get delayed or dropped, so the schedule uses off-peak minutes with several retries
-# (20:13, 20:43, 21:13, 22:13 Korea time). A retry is a no-op when the account already
-# posted in the last 20 hours.
+# Posts one reel every 24 hours (not at a fixed clock time). The schedule just polls every
+# 15 minutes at off-peak minutes; each run is a no-op unless the account's last post is
+# 24h or older (--min-gap-hours 24). Delayed or dropped polls only shift the next post a bit.
 on:
   schedule:
-    - cron: "13 11 * * *"
-    - cron: "43 11 * * *"
-    - cron: "13 12 * * *"
-    - cron: "13 13 * * *"
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -42,7 +38,7 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
-          MIN_GAP: ${{ github.event_name == 'schedule' && '20' || inputs.min_gap_hours || '0' }}
+          MIN_GAP: ${{ github.event_name == 'schedule' && '24' || inputs.min_gap_hours || '0' }}
         run: |
           args="--min-gap-hours $MIN_GAP"
           if [ "$DRY_RUN" = "true" ]; then args="$args --dry-run"; fi
