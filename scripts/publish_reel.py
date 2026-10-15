@@ -7,9 +7,9 @@ again once the post is live.
 
 Default is a DRY RUN: nothing is uploaded or posted. Pass --publish to do it for real.
 
-  python scripts/publish_reel.py out/2026-10-11-001.mp4 \
-      --caption-file out/2026-10-11-001_caption.txt \
-      --cover out/2026-10-11-001_thumbnail.png --publish
+  python scripts/publish_reel.py ../media/posted/2026-10-11-001.mp4 \
+      --caption-file ../media/posted/2026-10-11-001_caption.txt \
+      --cover ../media/posted/2026-10-11-001_thumbnail.png --publish
 
 Reads IG_ACCESS_TOKEN and IG_USER_ID from a .env found by walking up from this file
 (or --env). Secrets are never printed. Requires the `gh` CLI, logged in.

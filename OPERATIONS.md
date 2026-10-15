@@ -5,15 +5,15 @@ Instagram `@donbyeong.sangryeon`에 쉬운 경제 릴스를 하루 한 편씩 �
 
 ## 자동 게시 (GitHub Actions)
 
-- 워크플로: `.github/workflows/publish-reel.yml`, 스크립트: `reels-remotion/scripts/publish_queued.py`
+- 워크플로: `.github/workflows/publish-reel.yml`, 스크립트: `scripts/publish_queued.py`
 - 실행: 15분마다(매시 7,22,37,52분) 확인하고, 마지막 게시 후 24시간이 지났을 때만 1개 게시 (24시간 간격)
   - 첫 실행이 성공하면 나머지는 "20시간 안에 이미 올렸음" 규칙으로 건너뜁니다.
   - GitHub 예약 실행은 가끔 누락/지연됩니다. 첫 예약 실행(2026-10-13 11:00 UTC, 정시)은 실제로 실행되지 않았습니다.
 - **대기열** = 이 저장소의 *초안(Draft) 릴리스* `reel-<이름>`. 이름순으로 하나씩 게시하고, 올린 뒤 릴리스와 태그는 삭제됩니다.
   실패하면 초안으로 되돌아가 다음 실행에서 다시 시도합니다.
-- 영상 추가: `python reels-remotion/scripts/queue_reel.py <out/날짜-순번>` (저장소 폴더에서 실행)
+- 영상 추가: `python scripts/queue_reel.py 날짜-순번` (이 폴더에서 실행, `media/drafts/<이름>/`의 최신 버전을 올림. 특정 버전은 `--version 2`)
 - 수동 실행: GitHub > Actions > publish-reel > Run workflow (dry run 체크 해제). PC 없이 휴대폰에서도 가능.
-- **상태 확인**: `python reels-remotion/scripts/check_status.py`
+- **상태 확인**: `python scripts/check_status.py`
   - 대기열, 최근 워크플로 실행, 인스타 최근 게시물(시각/링크)을 보여 줍니다.
 
 ### 게시 일정 (2026-10-14 기준 대기열 순서)
@@ -50,9 +50,24 @@ Instagram `@donbyeong.sangryeon`에 쉬운 경제 릴스를 하루 한 편씩 �
 
 ## 영상 제작 파이프라인 (로컬 PC)
 
-- 프로젝트: `D:\Claude\moneystudy\reels-remotion` (렌더 작업용, node_modules 포함), git 사본은 `D:\Claude\moneystudy\repo\reels-remotion`
+- 프로젝트: `D:\Claude\moneystudy\repo` (git 저장소 = Remotion 프로젝트 하나, node_modules 포함)
   - 렌더링에서 바꾼 `src/` 파일은 git 사본으로 복사한 뒤 커밋합니다.
-- 기획: `youtube-to-reels` 스킬 `plan.py`(Gemini, 무료 한도 하루 20회 — 한 번에 하나씩 실행). 계획 파일은 `reels-remotion/plans/`.
+- 기획: `youtube-to-reels` 스킬 `plan.py`(Gemini, 무료 한도 하루 20회 — 한 번에 하나씩 실행). 계획 파일은 `plans/`.
 - 음성: `export_remotion.py` → qwen3-tts(CPU, 영상 한 편에 약 10~15분).
-- 렌더: `npx remotion render src/index.ts Reel-<이름> out/<이름>.mp4`, 썸네일: `npx remotion still ... Thumb-<이름> --frame=110`.
+- 렌더: `python scripts/render_reel.py <이름>` (매번 `media/drafts/<이름>/vN.mp4`로 새 버전 저장 + 썸네일). 캡션은 `media/drafts/<이름>/caption.txt`.
 - 화면 하단(viewBox y≈590 아래)은 제목 카드에 가려지므로 라벨은 그 위에 둡니다.
+
+## 폴더 구조와 정리 (2026-10-16)
+```
+D:\Claude\moneystudy\
+  .env            토큰 (커밋 금지)
+  repo\           git 프로젝트 = Remotion 앱 + scripts + plans
+  media\drafts\<이름>\   v1.mp4, v2.mp4 … 재생성한 영상(여러 번 만들어도 여기에만 쌓임), caption.txt, thumbnail.png
+  media\ready\    대기열에 넣은 최종본 (업로드 대기)
+  media\posted\   업로드 끝난 파일
+  media\cache\    옛 작업물 (언제든 삭제 가능)
+  inbox\          사용자가 올리는 파일/영상 전용
+  keep\           지우면 안 되는 원본 (캐릭터 원본 등)
+```
+- 큰 파일은 `media\` 와 `repo\public\20*.wav`(음성)에만 있어요.
+- 정리: `python scripts/cleanup_media.py` (미리보기) → `--apply` (실제 실행). 규칙: 대기열에 넣었거나 올린 영상의 재생성본은 즉시 삭제, 그 외 draft는 7일, posted/cache/음성은 14일 후 삭제. ready는 업로드되면 posted로 이동. `inbox`, `keep`은 건드리지 않아요.
